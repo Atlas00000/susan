@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: sanaya_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+      - /app/.turbo
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+      - FAST_REFRESH=true
+      - NEXT_TELEMETRY_DISABLED=1
+      - TURBO_TELEMETRY_DISABLED=1
+    command: sh -c "pnpm dev --turbo --port 3000"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+volumes: {}
+
+networks: {}
+
+
