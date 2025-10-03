@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 export const metadata = {
   title: 'Page Not Found',
   description: "We couldn't find the page you're looking for.",
-}
+} as const
 
 export default function NotFound() {
   return (
