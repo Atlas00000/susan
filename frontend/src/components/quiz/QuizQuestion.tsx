@@ -50,39 +50,51 @@ export function QuizQuestion({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <Card 
-              className={`cursor-pointer transition-all duration-300 hover:border-luxury-gold/50 hover:shadow-lg hover:shadow-luxury-gold/10 ${
-                selectedOption === option.id 
-                  ? 'border-luxury-gold bg-luxury-gold/10 shadow-lg shadow-luxury-gold/20' 
-                  : 'border-luxury-gold/20 hover:bg-luxury-charcoal/30'
-              }`}
+            <div
+              role="button"
+              tabIndex={0}
               onClick={() => onSelect(option.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onSelect(option.id)
+                }
+              }}
+              className="cursor-pointer"
             >
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1 ${
-                    selectedOption === option.id 
-                      ? 'border-luxury-gold bg-luxury-gold' 
-                      : 'border-luxury-cream/30'
-                  }`}>
-                    {selectedOption === option.id && (
-                      <div className="w-2 h-2 bg-luxury-charcoal rounded-full" />
-                    )}
+              <Card 
+                className={`transition-all duration-300 hover:border-luxury-gold/50 hover:shadow-lg hover:shadow-luxury-gold/10 ${
+                  selectedOption === option.id 
+                    ? 'border-luxury-gold bg-luxury-gold/10 shadow-lg shadow-luxury-gold/20' 
+                    : 'border-luxury-gold/20 hover:bg-luxury-charcoal/30'
+                }`}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-start space-x-4">
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1 ${
+                      selectedOption === option.id 
+                        ? 'border-luxury-gold bg-luxury-gold' 
+                        : 'border-luxury-cream/30'
+                    }`}>
+                      {selectedOption === option.id && (
+                        <div className="w-2 h-2 bg-luxury-charcoal rounded-full" />
+                      )}
+                    </div>
+                    
+                    <div className="flex-1">
+                      <h3 className="text-xl font-heading font-semibold text-luxury-cream mb-2">
+                        {option.label}
+                      </h3>
+                      {option.description && (
+                        <p className="text-luxury-cream/70 leading-relaxed">
+                          {option.description}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  
-                  <div className="flex-1">
-                    <h3 className="text-xl font-heading font-semibold text-luxury-cream mb-2">
-                      {option.label}
-                    </h3>
-                    {option.description && (
-                      <p className="text-luxury-cream/70 leading-relaxed">
-                        {option.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </motion.div>
         ))}
       </div>

@@ -54,15 +54,15 @@ const ProductCard = ({ product, index, isMobile }: { product: Product, index: nu
         `}>
           {/* Product Image */}
           <div className="relative aspect-square overflow-hidden">
-            {!imageError ? (
+            {!imageError && product.images && product.images[0] ? (
               <Image
-                src={product.images[0]}
+                src={product.images[0] as string}
                 alt={product.name}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 onLoad={() => setImageLoaded(true)}
                 onError={() => setImageError(true)}
-                priority={index < 3} // Prioritize first 3 images
+                priority={index < 3}
                 sizes={isMobile ? "100vw" : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
               />
             ) : (

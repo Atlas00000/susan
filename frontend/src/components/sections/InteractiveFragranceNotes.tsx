@@ -50,9 +50,9 @@ export function InteractiveFragranceNotes() {
     const interval = setInterval(() => {
       if (!isPlaying) {
         const categories = Object.keys(fragranceNotes)
-        const currentIndex = categories.indexOf(selectedCategory || 'top')
+        const currentIndex = categories.indexOf((selectedCategory as string) ?? 'top')
         const nextIndex = (currentIndex + 1) % categories.length
-        setSelectedCategory(categories[nextIndex])
+        setSelectedCategory(categories[nextIndex] ?? 'top')
       }
     }, 4000)
 
@@ -136,7 +136,7 @@ export function InteractiveFragranceNotes() {
               <motion.button
                 key={key}
                 onClick={() => {
-                  setSelectedCategory(key)
+                  setSelectedCategory(key ?? null)
                   setIsPlaying(true)
                 }}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
