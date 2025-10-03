@@ -342,7 +342,6 @@ export default function QuizPage() {
                       onSelect={handleSelect}
                       onNext={handleNext}
                       isLastQuestion={isLastQuestion}
-                      isTransitioning={isTransitioning}
                     />
                   )}
                 </div>
