@@ -112,39 +112,48 @@ export function ProductShowcase() {
                     <Link href={`/products/${product.id}`} className="block">
                       {/* Product Image */}
                       <div className="relative aspect-square overflow-hidden">
-                        <Image
-                          src={product.images[0]}
-                          alt={product.name}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-110"
-                          sizes={isMobile ? "100vw" : "(max-width: 768px) 100vw, 33vw"}
-                        />
-                        
-                        {/* Badges */}
-                        <div className="absolute top-4 left-4">
-                          <Badge
-                            variant={product.availability === 'limited' ? 'luxury' : 'default'}
-                            className="text-xs shadow-lg"
-                          >
-                            {product.availability === 'limited' ? 'Limited' : 'In Stock'}
-                          </Badge>
-                        </div>
-
-                        {product.featured && (
-                          <div className="absolute top-4 right-4">
-                            <Badge variant="outline" className="text-xs shadow-lg bg-luxury-gold/30">
-                              Featured
-                            </Badge>
+                        {product.images && product.images[0] ? (
+                          <Image
+                            src={product.images[0] as string}
+                            alt={product.name}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                            sizes={isMobile ? "100vw" : "(max-width: 768px) 100vw, 33vw"}
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center bg-luxury-gold/10">
+                            <span className="text-luxury-gold/60 text-sm font-medium line-clamp-2 px-2 text-center">
+                              {product.name}
+                            </span>
                           </div>
                         )}
+                      </div>
 
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-luxury-charcoal/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-luxury-gold text-5xl">✨</div>
-                          </div>
+                      {/* Badges */}
+                      <div className="absolute top-4 left-4">
+                        <Badge
+                          variant={product.availability === 'limited' ? 'luxury' : 'default'}
+                          className="text-xs shadow-lg"
+                        >
+                          {product.availability === 'limited' ? 'Limited' : 'In Stock'}
+                        </Badge>
+                      </div>
+
+                      {product.featured && (
+                        <div className="absolute top-4 right-4">
+                          <Badge variant="outline" className="text-xs shadow-lg bg-luxury-gold/30">
+                            Featured
+                          </Badge>
+                        </div>
+                      )}
+
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-luxury-charcoal/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-luxury-gold text-5xl">✨</div>
                         </div>
                       </div>
+                    </Link>
 
                       {/* Product Info */}
                       <div className="p-6 space-y-4">
@@ -185,78 +194,77 @@ export function ProductShowcase() {
                           </Button>
                         </div>
                       </div>
-                    </Link>
-                  </motion.div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Navigation Controls */}
-          <div className="flex items-center justify-center space-x-4 mt-8">
-            {/* Previous Button */}
-            <button
-              onClick={prevSlide}
-              disabled={currentSlide === 0}
-              className="p-3 rounded-full bg-luxury-charcoal/80 border border-luxury-gold/30 hover:border-luxury-gold/60 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:bg-luxury-gold/10"
-              aria-label="Previous products"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-luxury-gold">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-
-            {/* Dots Indicator */}
-            <div className="flex space-x-2">
-              {Array.from({ length: totalSlides }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentSlide === index
-                      ? 'bg-luxury-gold scale-125'
-                      : 'bg-luxury-gold/30 hover:bg-luxury-gold/50'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+                    </motion.div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Next Button */}
-            <button
-              onClick={nextSlide}
-              disabled={currentSlide === totalSlides - 1}
-              className="p-3 rounded-full bg-luxury-charcoal/80 border border-luxury-gold/30 hover:border-luxury-gold/60 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:bg-luxury-gold/10"
-              aria-label="Next products"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-luxury-gold">
-                <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-          </div>
-        </motion.div>
+            {/* Navigation Controls */}
+            <div className="flex items-center justify-center space-x-4 mt-8">
+              {/* Previous Button */}
+              <button
+                onClick={prevSlide}
+                disabled={currentSlide === 0}
+                className="p-3 rounded-full bg-luxury-charcoal/80 border border-luxury-gold/30 hover:border-luxury-gold/60 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:bg-luxury-gold/10"
+                aria-label="Previous products"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-luxury-gold">
+                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
 
-        {/* View All Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-12"
-        >
-          <Link href="/products">
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-8 py-4 bg-gradient-to-r from-luxury-gold/10 to-luxury-amber/10 border-luxury-gold/50 hover:border-luxury-gold hover:bg-gradient-to-r hover:from-luxury-gold/20 hover:to-luxury-amber/20 transition-all duration-300"
-            >
-              <span className="flex items-center space-x-2">
-                <span>View All Products</span>
-                <span>→</span>
-              </span>
-            </Button>
-          </Link>
-        </motion.div>
-      </div>
-    </section>
-  )
-}
+              {/* Dots Indicator */}
+              <div className="flex space-x-2">
+                {Array.from({ length: totalSlides }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      currentSlide === index
+                        ? 'bg-luxury-gold scale-125'
+                        : 'bg-luxury-gold/30 hover:bg-luxury-gold/50'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={nextSlide}
+                disabled={currentSlide === totalSlides - 1}
+                className="p-3 rounded-full bg-luxury-charcoal/80 border border-luxury-gold/30 hover:border-luxury-gold/60 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:bg-luxury-gold/10"
+                aria-label="Next products"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-luxury-gold">
+                  <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+
+          {/* View All Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="text-center mt-12"
+          >
+            <Link href="/products">
+              <Button
+                size="lg"
+                variant="outline"
+                className="px-8 py-4 bg-gradient-to-r from-luxury-gold/10 to-luxury-amber/10 border-luxury-gold/50 hover:border-luxury-gold hover:bg-gradient-to-r hover:from-luxury-gold/20 hover:to-luxury-amber/20 transition-all duration-300"
+              >
+                <span className="flex items-center space-x-2">
+                  <span>View All Products</span>
+                  <span>→</span>
+                </span>
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }

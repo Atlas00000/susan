@@ -163,11 +163,11 @@ export function InteractiveTestimonials() {
                 
                 {/* Testimonial Text */}
                 <blockquote className="text-2xl text-luxury-cream text-center mb-8 leading-relaxed">
-                  {currentTestimonial.text.split(' ').map((word, index) => (
+                  {currentTestimonial && currentTestimonial.text.split(' ').map((word, index) => (
                     <span
                       key={index}
                       className={
-                        word.toLowerCase().includes(currentTestimonial.highlight.toLowerCase())
+                        currentTestimonial && word.toLowerCase().includes(currentTestimonial.highlight.toLowerCase())
                           ? 'text-luxury-gold font-bold'
                           : ''
                       }
@@ -180,24 +180,24 @@ export function InteractiveTestimonials() {
                 {/* Customer Info */}
                 <div className="flex items-center justify-center space-x-6">
                   <div className="text-6xl">
-                    {currentTestimonial.avatar}
+                    {currentTestimonial ? currentTestimonial.avatar : '⭐'}
                   </div>
                   <div className="text-center">
                     <h4 className="text-xl font-heading font-bold text-luxury-cream mb-1">
-                      {currentTestimonial.name}
+                      {currentTestimonial ? currentTestimonial.name : ''}
                     </h4>
                     <p className="text-luxury-gold/80 font-semibold">
-                      {currentTestimonial.role}
+                      {currentTestimonial ? currentTestimonial.role : ''}
                     </p>
                     <p className="text-luxury-cream/60 text-sm">
-                      {currentTestimonial.location}
+                      {currentTestimonial ? currentTestimonial.location : ''}
                     </p>
                   </div>
                 </div>
                 
                 {/* Rating */}
                 <div className="flex justify-center mt-6">
-                  {[...Array(currentTestimonial.rating)].map((_, i) => (
+                  {[...Array(currentTestimonial ? currentTestimonial.rating : 0)].map((_, i) => (
                     <motion.span
                       key={i}
                       className="text-2xl text-luxury-gold"
@@ -226,6 +226,8 @@ export function InteractiveTestimonials() {
                       ? 'bg-luxury-gold scale-125'
                       : 'bg-luxury-gold/30 hover:bg-luxury-gold/50'
                   }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                  title={`Go to testimonial ${index + 1}`}
                 />
               ))}
             </div>

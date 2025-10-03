@@ -52,7 +52,7 @@ export function InteractiveFragranceNotes() {
         const categories = Object.keys(fragranceNotes)
         const currentIndex = categories.indexOf(selectedCategory || 'top')
         const nextIndex = (currentIndex + 1) % categories.length
-        setSelectedCategory(categories[nextIndex])
+        setSelectedCategory(categories[nextIndex] ?? 'top')
       }
     }, 4000)
 

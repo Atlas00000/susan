@@ -113,7 +113,9 @@ function calculateCompatibilityScore(profile: ScentProfile, product: Product): n
   return Math.min(1, compatibility + featuredBoost + availabilityBoost)
 }
 
-export function getScentFamilyFromProfile(profile: ScentProfile): string {
+type FamilyKey = 'oud-rich' | 'amber-gold' | 'floral-fresh' | 'gourmand-unique' | 'signature'
+
+export function getScentFamilyFromProfile(profile: ScentProfile): FamilyKey {
   const maxValue = Math.max(profile.oud, profile.amber, profile.floral, profile.gourmand)
   
   if (maxValue === profile.oud) return 'oud-rich'
@@ -125,9 +127,9 @@ export function getScentFamilyFromProfile(profile: ScentProfile): string {
 }
 
 export function getProfileDescription(profile: ScentProfile): string {
-  const dominant = getScentFamilyFromProfile(profile)
+  const dominant: FamilyKey = getScentFamilyFromProfile(profile)
   
-  const descriptions: Record<string, string> = {
+  const descriptions: Record<FamilyKey, string> = {
     'oud-rich': 'You\'re drawn to deep, complex fragrances with rich, mysterious notes. You appreciate luxury and sophistication.',
     'amber-gold': 'You love warm, golden fragrances that radiate elegance and confidence. You appreciate timeless beauty.',
     'floral-fresh': 'You prefer fresh, beautiful fragrances that are light and natural. You appreciate clean, effortless elegance.',
@@ -135,5 +137,5 @@ export function getProfileDescription(profile: ScentProfile): string {
     'signature': 'You have a balanced appreciation for all types of fragrances. You enjoy exploring different scent families.'
   }
   
-  return descriptions[dominant] || descriptions['signature']
+  return descriptions[dominant]
 }

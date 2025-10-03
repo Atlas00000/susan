@@ -83,26 +83,26 @@ export function MobileTestimonials() {
           <div className="bg-luxury-charcoal/80 rounded-3xl p-6 border border-luxury-gold/30 shadow-2xl">
             {/* Stars */}
             <div className="flex justify-center mb-4">
-              {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
+              {[...Array(testimonials[currentTestimonial]?.rating ?? 0)].map((_, i) => (
                 <span key={i} className="text-luxury-gold text-lg">⭐</span>
               ))}
             </div>
 
             {/* Testimonial Text */}
             <blockquote className="text-luxury-cream/90 text-center text-base leading-relaxed mb-6">
-              "{testimonials[currentTestimonial].text}"
+              "{testimonials[currentTestimonial]?.text ?? ''}"
             </blockquote>
 
             {/* Customer Info */}
             <div className="text-center">
               <div className="text-3xl mb-2">
-                {testimonials[currentTestimonial].avatar}
+                {testimonials[currentTestimonial]?.avatar ?? '⭐'}
               </div>
               <h3 className="text-luxury-cream font-semibold text-sm mb-1">
-                {testimonials[currentTestimonial].name}
+                {testimonials[currentTestimonial]?.name ?? ''}
               </h3>
               <p className="text-luxury-cream/60 text-xs">
-                {testimonials[currentTestimonial].location}
+                {testimonials[currentTestimonial]?.location ?? ''}
               </p>
             </div>
           </div>
