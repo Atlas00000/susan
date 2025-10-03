@@ -2,10 +2,12 @@ import { Container } from '@/components/ui/Container'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { ProductImage } from '@/components/ui/ProductImage'
 import { getProductById } from '@/data/products'
 import { getCollectionById } from '@/data/collections'
 import { formatPrice } from '@/lib/utils'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 interface ProductPageProps {
@@ -49,26 +51,10 @@ export default function ProductPage({ params }: ProductPageProps) {
           {/* Product Image Gallery */}
           <div className="space-y-4">
             <div className="aspect-square bg-luxury-charcoal/50 rounded-2xl overflow-hidden relative">
-              <img 
+              <ProductImage 
                 src={product.images[0]} 
                 alt={product.name}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  // Fallback to placeholder if image fails to load
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                  const fallback = target.nextElementSibling as HTMLElement;
-                  if (fallback) fallback.style.display = 'flex';
-                }}
               />
-              <div className="w-full h-full bg-luxury-gold/10 flex items-center justify-center absolute inset-0" style={{display: 'none'}}>
-                <div className="text-center">
-                  <div className="text-6xl mb-4">🌸</div>
-                  <span className="text-luxury-gold/50 text-lg font-medium">
-                    {product.name}
-                  </span>
-                </div>
-              </div>
             </div>
             
             {/* Additional Images Placeholder */}
@@ -218,16 +204,27 @@ export default function ProductPage({ params }: ProductPageProps) {
               {collection.products
                 .filter(p => p.id !== product.id)
                 .slice(0, 3)
-                .map((relatedProduct) => (
+                .map((relatedProduct, index) => (
                   <Link key={relatedProduct.id} href={`/products/${relatedProduct.id}`}>
                     <Card hover className="group cursor-pointer">
                       <CardHeader>
-                        <div className="aspect-square bg-luxury-charcoal/50 rounded-lg overflow-hidden mb-4">
-                          <div className="w-full h-full bg-luxury-gold/10 flex items-center justify-center">
-                            <span className="text-luxury-gold/50 text-sm font-medium">
-                              {relatedProduct.name}
-                            </span>
-                          </div>
+                        <div className="aspect-square bg-luxury-charcoal/50 rounded-lg overflow-hidden mb-4 relative">
+                          {relatedProduct.images && relatedProduct.images[0] ? (
+                            <Image
+                              src={relatedProduct.images[0]}
+                              alt={relatedProduct.name}
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              priority={index === 0}
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-luxury-gold/10 flex items-center justify-center">
+                              <span className="text-luxury-gold/50 text-sm font-medium">
+                                {relatedProduct.name}
+                              </span>
+                            </div>
+                          )}
                         </div>
                         <CardTitle className="text-lg group-hover:text-luxury-gold transition-colors">
                           {relatedProduct.name}

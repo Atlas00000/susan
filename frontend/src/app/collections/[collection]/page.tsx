@@ -6,6 +6,7 @@ import { getCollectionById } from '@/data/collections'
 import { getProductsByCategory } from '@/data/products'
 import { formatPrice } from '@/lib/utils'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 interface CollectionPageProps {
@@ -24,7 +25,7 @@ export default function CollectionPage({ params }: CollectionPageProps) {
   const products = getProductsByCategory(collection.category)
 
   return (
-    <div className="min-h-screen bg-luxury-charcoal">
+    <div className="min-h-screen bg-luxury-charcoal relative">
       <Container className="py-16">
         {/* Collection Header */}
         <div className="text-center mb-16">
@@ -49,27 +50,18 @@ export default function CollectionPage({ params }: CollectionPageProps) {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((product) => (
+          {products.map((product, index) => (
             <Card key={product.id} hover className="group">
               <CardHeader>
                 <div className="aspect-square bg-luxury-charcoal/50 rounded-lg overflow-hidden mb-4 relative">
-                  <img 
-                    src={product.images[0]} 
+                  <Image
+                    src={product.images[0]}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      // Fallback to placeholder if image fails to load
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const fallback = target.nextElementSibling as HTMLElement;
-                      if (fallback) fallback.style.display = 'flex';
-                    }}
+                    fill
+                    priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
-                  <div className="w-full h-full bg-luxury-gold/10 flex items-center justify-center absolute inset-0" style={{display: 'none'}}>
-                    <span className="text-luxury-gold/50 text-sm font-medium">
-                      {product.name}
-                    </span>
-                  </div>
                 </div>
                 
                 <div className="flex items-center justify-between mb-2">

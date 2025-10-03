@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
 
 interface NavigationProps {
   className?: string
@@ -10,6 +11,7 @@ interface NavigationProps {
 
 export function Navigation({ className }: NavigationProps) {
   const [activeItem, setActiveItem] = useState<string | null>(null)
+  const router = useRouter()
 
   const navigationItems = [
     {
@@ -30,7 +32,7 @@ export function Navigation({ className }: NavigationProps) {
       submenu: [
         { name: 'Scent Discovery Quiz', href: '/quiz' },
         { name: 'Fragrance Guide', href: '/guide' },
-        { name: 'Featured Products', href: '/#featured' },
+        { name: 'All Products', href: '/products' },
       ]
     },
     {
@@ -39,13 +41,38 @@ export function Navigation({ className }: NavigationProps) {
       submenu: [
         { name: 'Our Story', href: '/about' },
         { name: 'Contact Us', href: '/contact' },
-        { name: 'Careers', href: '/careers' },
       ]
     },
   ]
 
   return (
-    <nav className={cn('hidden lg:flex items-center space-x-8', className)}>
+    <nav className={cn('w-full', className)}>
+      {/* Mobile dropdown */}
+      <div className="md:hidden">
+        <nav className="flex items-center justify-between gap-2">
+          <Link
+            href="/collections"
+            className="flex-1 text-center px-3 py-2 rounded-lg border border-luxury-gold/40 text-luxury-cream hover:text-luxury-gold hover:border-luxury-gold transition-colors text-sm"
+          >
+            Collections
+          </Link>
+          <Link
+            href="/quiz"
+            className="flex-1 text-center px-3 py-2 rounded-lg border border-luxury-gold/40 text-luxury-cream hover:text-luxury-gold hover:border-luxury-gold transition-colors text-sm"
+          >
+            Discovery
+          </Link>
+          <Link
+            href="/about"
+            className="flex-1 text-center px-3 py-2 rounded-lg border border-luxury-gold/40 text-luxury-cream hover:text-luxury-gold hover:border-luxury-gold transition-colors text-sm"
+          >
+            About
+          </Link>
+        </nav>
+      </div>
+
+      {/* Desktop / tablet inline nav */}
+      <div className="hidden md:flex items-center gap-8">
       {navigationItems.map((item) => (
         <div
           key={item.name}
@@ -55,7 +82,7 @@ export function Navigation({ className }: NavigationProps) {
         >
           <Link
             href={item.href}
-            className="text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-200 font-medium"
+            className="text-base text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-200 font-medium"
           >
             {item.name}
           </Link>
@@ -78,6 +105,7 @@ export function Navigation({ className }: NavigationProps) {
           )}
         </div>
       ))}
+      </div>
     </nav>
   )
 }

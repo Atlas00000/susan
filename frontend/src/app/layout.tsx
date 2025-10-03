@@ -1,4 +1,7 @@
 import './globals.css';
+import { Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { StructuredData } from '@/components/seo/StructuredData';
@@ -21,6 +24,9 @@ export const metadata = {
   metadataBase: new URL('https://sanayascents.com'),
   alternates: {
     canonical: '/',
+  },
+  icons: {
+    icon: '/favicon.ico',
   },
   openGraph: {
     type: 'website',
@@ -49,10 +55,12 @@ export const metadata = {
   },
 };
 
+const inter = Inter({ subsets: ['latin'], display: 'swap', preload: true, weight: ['400','500','600','700'] });
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-luxury-charcoal text-luxury-cream">
+      <body className={`bg-luxury-charcoal text-luxury-cream ${inter.className}`}>
         <StructuredData />
         <a href="#main-content" className="skip-link">
           Skip to main content
@@ -60,6 +68,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main-content">{children}</main>
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

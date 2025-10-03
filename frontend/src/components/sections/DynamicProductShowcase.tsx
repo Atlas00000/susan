@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { Product } from '@/types'
 import { getFeaturedProducts } from '@/data/products'
@@ -9,10 +9,28 @@ import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import Link from 'next/link'
 
+// Mobile detection hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+  
+  return isMobile
+}
+
 export function DynamicProductShowcase() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -21,9 +39,8 @@ export function DynamicProductShowcase() {
   const products = getFeaturedProducts()
   const isInView = useInView(containerRef, { once: true, amount: 0.3 })
 
-  // Parallax effects
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0])
+  // Simplified parallax effects for better performance
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
 
   return (
     <section 
@@ -61,7 +78,7 @@ export function DynamicProductShowcase() {
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-20"
+          className={`text-center ${isMobile ? 'mb-12' : 'mb-20'}`}
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -76,7 +93,7 @@ export function DynamicProductShowcase() {
             </Badge>
           </motion.div>
           
-          <h2 className="text-5xl md:text-6xl font-heading font-bold text-luxury-cream mb-6">
+          <h2 className={`${isMobile ? 'text-4xl' : 'text-5xl md:text-6xl'} font-heading font-bold text-luxury-cream mb-6`}>
             <motion.span
               className="block"
               initial={{ opacity: 0, x: -50 }}
@@ -96,7 +113,7 @@ export function DynamicProductShowcase() {
           </h2>
           
           <motion.p
-            className="text-xl text-luxury-cream/70 max-w-3xl mx-auto"
+            className={`${isMobile ? 'text-lg' : 'text-xl'} text-luxury-cream/70 ${isMobile ? 'max-w-full px-4' : 'max-w-3xl mx-auto'}`}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.8, duration: 0.8 }}
@@ -106,12 +123,12 @@ export function DynamicProductShowcase() {
         </motion.div>
 
         {/* Dynamic Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className={`grid ${isMobile ? 'grid-cols-1 gap-6' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'}`}>
           {products.map((product, index) => (
             <motion.div
               key={product.id}
               className="group relative"
-              initial={{ opacity: 0, y: 100, rotateX: -15 }}
+              initial={{ opacity: 0, y: 100, rotateX: isMobile ? 0 : -15 }}
               animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
               transition={{ 
                 delay: index * 0.2, 
@@ -119,16 +136,16 @@ export function DynamicProductShowcase() {
                 type: "spring",
                 stiffness: 100
               }}
-              whileHover={{ 
+              whileHover={isMobile ? {} : { 
                 y: -20,
                 rotateY: 5,
                 transition: { duration: 0.3 }
               }}
-              onHoverStart={() => setHoveredIndex(index)}
-              onHoverEnd={() => setHoveredIndex(null)}
+              onHoverStart={() => !isMobile && setHoveredIndex(index)}
+              onHoverEnd={() => !isMobile && setHoveredIndex(null)}
             >
               <Link href={`/products/${product.id}`}>
-                <div className="relative bg-luxury-charcoal/60 backdrop-blur-md border border-luxury-gold/20 rounded-3xl overflow-hidden shadow-2xl group-hover:shadow-luxury-gold/20 transition-all duration-500">
+                <div className={`relative bg-luxury-charcoal/60 backdrop-blur-md border border-luxury-gold/20 ${isMobile ? 'rounded-2xl' : 'rounded-3xl'} overflow-hidden shadow-2xl ${isMobile ? '' : 'group-hover:shadow-luxury-gold/20'} transition-all duration-500`}>
                   {/* Product Image */}
                   <div className="relative aspect-square overflow-hidden">
                     <motion.img
@@ -137,6 +154,8 @@ export function DynamicProductShowcase() {
                       className="w-full h-full object-cover"
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.6 }}
+                      loading="lazy"
+                      decoding="async"
                     />
                     
                     {/* Gradient Overlay */}
@@ -187,7 +206,7 @@ export function DynamicProductShowcase() {
                   </div>
 
                   {/* Product Info */}
-                  <div className="p-6 space-y-4">
+                  <div className={`${isMobile ? 'p-4 space-y-3' : 'p-6 space-y-4'}`}>
                     {/* Scent Notes */}
                     <div className="flex flex-wrap gap-2">
                       {product.notes.slice(0, 3).map((note, noteIndex) => (
@@ -206,7 +225,7 @@ export function DynamicProductShowcase() {
 
                     {/* Product Name */}
                     <motion.h3
-                      className="text-xl font-heading font-bold text-luxury-cream group-hover:text-luxury-gold transition-colors"
+                      className={`${isMobile ? 'text-lg' : 'text-xl'} font-heading font-bold text-luxury-cream ${isMobile ? '' : 'group-hover:text-luxury-gold'} transition-colors`}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.2 + 1 }}
@@ -216,7 +235,7 @@ export function DynamicProductShowcase() {
 
                     {/* Description */}
                     <motion.p
-                      className="text-luxury-cream/70 line-clamp-2"
+                      className={`text-luxury-cream/70 ${isMobile ? 'line-clamp-3' : 'line-clamp-2'}`}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.2 + 1.1 }}
@@ -226,20 +245,25 @@ export function DynamicProductShowcase() {
 
                     {/* Price */}
                     <motion.div
-                      className="flex items-center justify-between"
+                      className={`flex items-center ${isMobile ? 'flex-col gap-3' : 'justify-between'}`}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.2 + 1.2 }}
                     >
-                      <span className="text-2xl font-bold text-luxury-gold">
+                      <span className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-luxury-gold`}>
                         {formatPrice(product.price)}
                       </span>
                       
                       <motion.div
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={isMobile ? {} : { scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
+                        className={isMobile ? 'w-full' : ''}
                       >
-                        <Button size="sm" variant="outline">
+                        <Button 
+                          size={isMobile ? 'md' : 'sm'} 
+                          variant="outline"
+                          className={isMobile ? 'w-full' : ''}
+                        >
                           View Details
                         </Button>
                       </motion.div>

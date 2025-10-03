@@ -4,6 +4,18 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  
+  // Image optimization
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 7, // 7 days
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+
   // Development settings for hot reloading
   ...(process.env.NODE_ENV === 'development' && {
     onDemandEntries: {
@@ -12,23 +24,16 @@ const nextConfig = {
       // number of pages that should be kept simultaneously without being disposed
       pagesBufferLength: 2,
     },
-    // Enable webpack 5 for better performance
-    webpack5: true,
-    // Enable fast refresh
-    fastRefresh: true,
   }),
-  
+
   // Enable experimental features for better development experience
   experimental: {
     // Turbo mode is already enabled via --turbo flag
     esmExternals: true,
+    optimizeCss: true,
   },
-  
-  // Optimize for development
-  ...(process.env.NODE_ENV === 'development' && {
-    // Disable telemetry for faster startup
-    telemetry: false,
-  }),
+
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;
