@@ -135,5 +135,5 @@ export function getProfileDescription(profile: ScentProfile): string {
     'signature': 'You have a balanced appreciation for all types of fragrances. You enjoy exploring different scent families.'
   }
   
-  return descriptions[dominant] ?? descriptions['signature']!
+  return descriptions[dominant] || descriptions['signature']
 }

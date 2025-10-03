@@ -60,10 +60,10 @@ export function QuizQuestion({
                   onSelect(option.id)
                 }
               }}
-              className="cursor-pointer"
+              className="focus:outline-none focus:ring-2 focus:ring-luxury-gold/50 rounded-xl"
             >
               <Card 
-                className={`transition-all duration-300 hover:border-luxury-gold/50 hover:shadow-lg hover:shadow-luxury-gold/10 ${
+                className={`cursor-pointer transition-all duration-300 hover:border-luxury-gold/50 hover:shadow-lg hover:shadow-luxury-gold/10 ${
                   selectedOption === option.id 
                     ? 'border-luxury-gold bg-luxury-gold/10 shadow-lg shadow-luxury-gold/20' 
                     : 'border-luxury-gold/20 hover:bg-luxury-charcoal/30'

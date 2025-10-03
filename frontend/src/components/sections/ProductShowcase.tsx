@@ -112,21 +112,13 @@ export function ProductShowcase() {
                     <Link href={`/products/${product.id}`} className="block">
                       {/* Product Image */}
                       <div className="relative aspect-square overflow-hidden">
-                        {product.images && product.images[0] ? (
-                          <Image
-                            src={product.images[0] as string}
-                            alt={product.name}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            sizes={isMobile ? "100vw" : "(max-width: 768px) 100vw, 33vw"}
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-luxury-gold/10 flex items-center justify-center">
-                            <span className="text-luxury-gold/50 text-sm font-medium">
-                              {product.name}
-                            </span>
-                          </div>
-                        )}
+                        <Image
+                          src={product.images[0]}
+                          alt={product.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          sizes={isMobile ? "100vw" : "(max-width: 768px) 100vw, 33vw"}
+                        />
                         
                         {/* Badges */}
                         <div className="absolute top-4 left-4">

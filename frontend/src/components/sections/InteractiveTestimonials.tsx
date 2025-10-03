@@ -70,7 +70,7 @@ export function InteractiveTestimonials() {
     return () => clearInterval(interval)
   }, [isAutoPlaying])
 
-  const currentTestimonial = testimonials[currentIndex] ?? testimonials[0]
+  const currentTestimonial = testimonials[currentIndex]
 
   return (
     <section className="relative py-32 bg-gradient-to-br from-luxury-royal/10 via-luxury-charcoal to-luxury-amber/10 overflow-hidden">
@@ -163,11 +163,11 @@ export function InteractiveTestimonials() {
                 
                 {/* Testimonial Text */}
                 <blockquote className="text-2xl text-luxury-cream text-center mb-8 leading-relaxed">
-                  {(currentTestimonial?.text ?? '').split(' ').map((word, index) => (
+                  {currentTestimonial.text.split(' ').map((word, index) => (
                     <span
                       key={index}
                       className={
-                        word.toLowerCase().includes((currentTestimonial?.highlight ?? '').toLowerCase())
+                        word.toLowerCase().includes(currentTestimonial.highlight.toLowerCase())
                           ? 'text-luxury-gold font-bold'
                           : ''
                       }
@@ -180,24 +180,24 @@ export function InteractiveTestimonials() {
                 {/* Customer Info */}
                 <div className="flex items-center justify-center space-x-6">
                   <div className="text-6xl">
-                    {currentTestimonial?.avatar ?? '🙂'}
+                    {currentTestimonial.avatar}
                   </div>
                   <div className="text-center">
                     <h4 className="text-xl font-heading font-bold text-luxury-cream mb-1">
-                      {currentTestimonial?.name ?? 'Guest'}
+                      {currentTestimonial.name}
                     </h4>
                     <p className="text-luxury-gold/80 font-semibold">
-                      {currentTestimonial?.role ?? ''}
+                      {currentTestimonial.role}
                     </p>
                     <p className="text-luxury-cream/60 text-sm">
-                      {currentTestimonial?.location ?? ''}
+                      {currentTestimonial.location}
                     </p>
                   </div>
                 </div>
                 
                 {/* Rating */}
                 <div className="flex justify-center mt-6">
-                  {[...Array(currentTestimonial?.rating ?? 5)].map((_, i) => (
+                  {[...Array(currentTestimonial.rating)].map((_, i) => (
                     <motion.span
                       key={i}
                       className="text-2xl text-luxury-gold"
