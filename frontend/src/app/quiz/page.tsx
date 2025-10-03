@@ -167,15 +167,23 @@ export default function QuizPage() {
 
     setIsTransitioning(true)
 
-    // Track the answer
-    trackQuizAnswer(currentQuestion.id, selectedOption)
+    // Track the answer (guard for type safety)
+    if (currentQuestion) {
+      trackQuizAnswer(currentQuestion.id, selectedOption)
+    }
 
     // Save the answer
-    const newAnswer: QuizAnswer = {
-      questionId: currentQuestion.id,
-      answer: selectedOption,
-      weight: 1.0
-    }
+    const newAnswer: QuizAnswer = currentQuestion
+      ? {
+          questionId: currentQuestion.id,
+          answer: selectedOption,
+          weight: 1.0
+        }
+      : {
+          questionId: 'unknown',
+          answer: selectedOption,
+          weight: 1.0
+        }
 
     const newAnswers = [...answers, newAnswer]
     setAnswers(newAnswers)
