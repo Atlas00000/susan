@@ -335,14 +335,16 @@ export default function QuizPage() {
               >
                 {/* Question Card with Enhanced Styling */}
                 <div className="bg-luxury-charcoal/80 backdrop-blur-lg border border-luxury-gold/30 rounded-3xl p-8 md:p-12 shadow-2xl shadow-luxury-gold/10">
-                  <QuizQuestion
-                    question={currentQuestion}
-                    selectedOption={selectedOption}
-                    onSelect={handleSelect}
-                    onNext={handleNext}
-                    isLastQuestion={isLastQuestion}
-                    isTransitioning={isTransitioning}
-                  />
+                  {currentQuestion && (
+                    <QuizQuestion
+                      question={currentQuestion}
+                      selectedOption={selectedOption}
+                      onSelect={handleSelect}
+                      onNext={handleNext}
+                      isLastQuestion={isLastQuestion}
+                      isTransitioning={isTransitioning}
+                    />
+                  )}
                 </div>
               </motion.div>
             </AnimatePresence>
