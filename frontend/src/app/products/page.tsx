@@ -27,14 +27,22 @@ export default function ProductsIndexPage() {
               <Card hover className="group cursor-pointer">
                 <CardHeader>
                   <div className="aspect-square bg-luxury-charcoal/50 rounded-xl overflow-hidden relative mb-4">
-                    <Image
-                      src={product.images[0]}
-                      alt={product.name}
-                      fill
-                      priority={index < 2}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
+                    {product.images && product.images[0] ? (
+                      <Image
+                        src={product.images[0] as string}
+                        alt={product.name}
+                        fill
+                        priority={index < 2}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-luxury-gold/10">
+                        <span className="text-luxury-gold/60 text-sm font-medium line-clamp-2 px-2 text-center">
+                          {product.name}
+                        </span>
+                      </div>
+                    )}
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-t from-luxury-charcoal/70 via-transparent to-transparent opacity-0 group-hover:opacity-100"
                       initial={{ opacity: 0 }}
