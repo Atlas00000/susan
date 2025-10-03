@@ -54,14 +54,22 @@ export default function CollectionPage({ params }: CollectionPageProps) {
             <Card key={product.id} hover className="group">
               <CardHeader>
                 <div className="aspect-square bg-luxury-charcoal/50 rounded-lg overflow-hidden mb-4 relative">
-                  <Image
-                    src={product.images[0]}
-                    alt={product.name}
-                    fill
-                    priority={index === 0}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                  {product.images && product.images[0] ? (
+                    <Image
+                      src={product.images[0] as string}
+                      alt={product.name}
+                      fill
+                      priority={index === 0}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-luxury-gold/10">
+                      <span className="text-luxury-gold/60 text-sm font-medium line-clamp-2 px-2 text-center">
+                        {product.name}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="flex items-center justify-between mb-2">
