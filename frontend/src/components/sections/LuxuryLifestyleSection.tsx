@@ -49,19 +49,19 @@ const lifestyleMoments = [
 export function LuxuryLifestyleSection() {
   const [selectedMoment, setSelectedMoment] = useState<string | null>(null)
   const [hoveredMoment, setHoveredMoment] = useState<string | null>(null)
-  const [currentTime, setCurrentTime] = useState(new Date())
+  const [currentTime, setCurrentTime] = useState<Date | null>(null)
 
-  // Update time every minute
+  // Set time on mount and update every minute (client-only)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date())
-    }, 60000)
+    setCurrentTime(new Date())
+    const interval = setInterval(() => setCurrentTime(new Date()), 60000)
     return () => clearInterval(interval)
   }, [])
 
   // Auto-suggest current time moment
   useEffect(() => {
-    const hour = currentTime.getHours()
+    const dateRef = currentTime ?? new Date()
+    const hour = dateRef.getHours()
     if (hour >= 6 && hour < 12) {
       setSelectedMoment('morning')
     } else if (hour >= 12 && hour < 18) {
@@ -151,11 +151,11 @@ export function LuxuryLifestyleSection() {
             <span className="text-2xl">🕐</span>
             <div>
               <div className="text-luxury-gold font-semibold">
-                Current Time: {currentTime.toLocaleTimeString('en-US', { 
-                  hour: 'numeric', 
+                Current Time: {currentTime ? currentTime.toLocaleTimeString('en-US', {
+                  hour: 'numeric',
                   minute: '2-digit',
-                  hour12: true 
-                })}
+                  hour12: true
+                }) : '—'}
               </div>
               <div className="text-luxury-cream/70 text-sm">
                 Perfect for {selectedMoment ? lifestyleMoments.find(m => m.id === selectedMoment)?.title : 'your moment'}

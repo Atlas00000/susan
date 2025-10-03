@@ -30,7 +30,7 @@ const nextConfig = {
   experimental: {
     // Turbo mode is already enabled via --turbo flag
     esmExternals: true,
-    optimizeCss: true,
+    optimizeCss: false,
   },
 
   productionBrowserSourceMaps: false,
