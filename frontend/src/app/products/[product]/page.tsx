@@ -51,10 +51,18 @@ export default function ProductPage({ params }: ProductPageProps) {
           {/* Product Image Gallery */}
           <div className="space-y-4">
             <div className="aspect-square bg-luxury-charcoal/50 rounded-2xl overflow-hidden relative">
-              <ProductImage 
-                src={product.images[0]} 
-                alt={product.name}
-              />
+              {product.images && product.images[0] ? (
+                <ProductImage 
+                  src={product.images[0] as string}
+                  alt={product.name}
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-luxury-gold/10">
+                  <span className="text-luxury-gold/60 text-sm font-medium line-clamp-2 px-2 text-center">
+                    {product.name}
+                  </span>
+                </div>
+              )}
             </div>
             
             {/* Additional Images Placeholder */}
