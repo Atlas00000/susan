@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { Container } from '@/components/ui/Container'
 
 export default function TermsPage() {

@@ -129,7 +129,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
                 .slice(0, 2)
                 .map(([key, relatedArticle]) => (
                   <Link key={key} href={`/guide/${key}`}>
-                    <Card hover className="h-full">
+                    <Card hover="lift" className="h-full">
                       <CardHeader>
                         <div className="flex items-center justify-between mb-2">
                           <Badge variant="secondary" size="sm">

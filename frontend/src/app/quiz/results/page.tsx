@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Container } from '@/components/ui/Container'
@@ -18,6 +20,11 @@ export default function QuizResultsPage() {
   const [profile, setProfile] = useState<ScentProfile | null>(null)
   const [recommendations, setRecommendations] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [aiEnhancement, setAiEnhancement] = useState<{
+    profileTitle: string
+    personalizedDescription: string
+    recommendations: Array<{ productId: string; reasoning: string }>
+  } | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -40,6 +47,9 @@ export default function QuizResultsPage() {
       const productRecommendations = getRecommendations(scentProfile, 6)
       setRecommendations(productRecommendations)
 
+      // Get AI enhancement
+      fetchAIEnhancement(parsedAnswers, productRecommendations)
+
       // Track analytics
       trackRecommendationsViewed()
       endQuizTimer()
@@ -50,6 +60,29 @@ export default function QuizResultsPage() {
       router.push('/quiz')
     }
   }, [router])
+
+  const fetchAIEnhancement = async (quizAnswers: QuizAnswer[], products: Product[]) => {
+    try {
+      const response = await fetch('/api/quiz-enhance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          answers: quizAnswers,
+          recommendedProductIds: products.map(p => p.id),
+          userId: `quiz-${Date.now()}`,
+        }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setAiEnhancement(data)
+        console.log('AI Enhancement received:', data)
+      }
+    } catch (error) {
+      console.error('Failed to get AI enhancement:', error)
+      // Continue without AI enhancement - fallback to static
+    }
+  }
 
   if (loading) {
     return (
@@ -91,7 +124,7 @@ export default function QuizResultsPage() {
           </p>
         </motion.div>
 
-        {/* Scent Profile Card */}
+        {/* Scent Profile Card - AI Enhanced */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -101,15 +134,25 @@ export default function QuizResultsPage() {
           <Card className="max-w-4xl mx-auto">
             <CardHeader className="text-center">
               <div className="mb-6">
+                {aiEnhancement && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.4, duration: 0.5 }}
+                    className="inline-flex items-center gap-2 bg-luxury-gold/20 border border-luxury-gold/30 rounded-full px-4 py-2 mb-4"
+                  >
+                    <span className="text-xs font-semibold text-luxury-gold">AI-Powered Profile</span>
+                  </motion.div>
+                )}
                 <Badge variant="luxury" size="lg" className="mb-4">
                   {familyNames[dominantFamily]} Collection
                 </Badge>
-                <CardTitle className="text-3xl font-heading font-bold text-luxury-cream mb-4">
-                  Your Perfect Match
+                <CardTitle className="text-3xl md:text-4xl font-heading font-bold text-luxury-cream mb-4">
+                  {aiEnhancement ? aiEnhancement.profileTitle : 'Your Perfect Match'}
                 </CardTitle>
               </div>
               <CardDescription className="text-lg text-luxury-cream/80 leading-relaxed max-w-2xl mx-auto">
-                {profileDescription}
+                {aiEnhancement ? aiEnhancement.personalizedDescription : profileDescription}
               </CardDescription>
             </CardHeader>
             
@@ -159,16 +202,53 @@ export default function QuizResultsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recommendations.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
-              >
-                <ProductCard product={product} />
-              </motion.div>
-            ))}
+            {recommendations.map((product, index) => {
+              // Find AI reasoning for this product
+              const aiReasoning = aiEnhancement?.recommendations?.find(
+                rec => rec.productId === product.id
+              )?.reasoning
+
+              return (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                  className="relative"
+                >
+                  {/* AI Reasoning Badge */}
+                  {aiReasoning && index < 3 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 1 + index * 0.1 }}
+                      className="absolute -top-3 left-4 z-10 bg-luxury-gold text-luxury-charcoal px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+                    >
+                      Top {index + 1} Match
+                    </motion.div>
+                  )}
+                  
+                  <ProductCard product={product} />
+                  
+                  {/* AI Reasoning */}
+                  {aiReasoning && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      transition={{ delay: 1.2 + index * 0.1 }}
+                      className="mt-3 bg-luxury-gold/10 border border-luxury-gold/20 rounded-lg p-3"
+                    >
+                      <div className="flex items-start gap-2">
+                        <p className="text-xs text-luxury-cream/80 leading-relaxed">
+                          <span className="font-semibold text-luxury-gold">Why this matches: </span>
+                          {aiReasoning}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </motion.div>
+              )
+            })}
           </div>
         </motion.div>
 

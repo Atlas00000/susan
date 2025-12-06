@@ -51,7 +51,7 @@ export default function CollectionPage({ params }: CollectionPageProps) {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {products.map((product, index) => (
-            <Card key={product.id} hover className="group">
+            <Card key={product.id} hover="lift" className="group">
               <CardHeader>
                 <div className="aspect-square bg-luxury-charcoal/50 rounded-lg overflow-hidden mb-4 relative">
                   {product.images && product.images[0] ? (

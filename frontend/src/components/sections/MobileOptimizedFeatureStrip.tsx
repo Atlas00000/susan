@@ -8,7 +8,6 @@ import Link from 'next/link'
 
 const features = [
   {
-    icon: '🎯',
     title: 'Personalized Discovery',
     description: 'Take our intelligent scent quiz to find your perfect fragrance match',
     color: 'from-luxury-gold to-luxury-amber',
@@ -18,7 +17,6 @@ const features = [
     href: '/quiz'
   },
   {
-    icon: '✨',
     title: 'Premium Quality',
     description: 'Handcrafted with the finest ingredients from prestigious suppliers',
     color: 'from-luxury-royal to-luxury-gold',
@@ -28,7 +26,6 @@ const features = [
     href: '/products'
   },
   {
-    icon: '🌹',
     title: 'Luxury Experience',
     description: 'Immerse yourself in an exclusive world of sophisticated fragrances',
     color: 'from-luxury-amber to-luxury-royal',
@@ -81,15 +78,6 @@ const FeatureCard = ({ feature, index, isMobile }: { feature: any, index: number
         
         {/* Content */}
         <div className="relative z-10">
-          {/* Icon */}
-          <motion.div
-            className={`${isMobile ? 'text-4xl mb-4' : 'text-5xl mb-6'} inline-block`}
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            transition={{ duration: 0.3 }}
-          >
-            {feature.icon}
-          </motion.div>
-          
           {/* Title */}
           <h3 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-heading font-bold text-luxury-cream mb-3`}>
             {feature.title}

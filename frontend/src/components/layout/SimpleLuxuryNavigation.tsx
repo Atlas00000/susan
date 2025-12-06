@@ -17,37 +17,34 @@ export function SimpleLuxuryNavigation({ className }: SimpleLuxuryNavigationProp
     {
       name: 'Collections',
       href: '/collections',
-      icon: '🌸',
       description: 'Explore our curated fragrance collections',
       submenu: [
-        { name: 'All Collections', href: '/collections', icon: '✨' },
-        { name: 'Oud & Rich', href: '/collections/oud-rich', icon: '🌹' },
-        { name: 'Amber & Gold', href: '/collections/amber-gold', icon: '🏆' },
-        { name: 'Floral & Fresh', href: '/collections/floral-fresh', icon: '🌺' },
-        { name: 'Gourmand & Unique', href: '/collections/gourmand-unique', icon: '🍯' },
-        { name: 'Signature Editions', href: '/collections/signature', icon: '👑' },
+        { name: 'All Collections', href: '/collections' },
+        { name: 'Oud & Rich', href: '/collections/oud-rich' },
+        { name: 'Amber & Gold', href: '/collections/amber-gold' },
+        { name: 'Floral & Fresh', href: '/collections/floral-fresh' },
+        { name: 'Gourmand & Unique', href: '/collections/gourmand-unique' },
+        { name: 'Signature Editions', href: '/collections/signature' },
       ]
     },
     {
       name: 'Discover',
       href: '/quiz',
-      icon: '🔮',
       description: 'Find your perfect scent match',
       submenu: [
-        { name: 'Scent Discovery Quiz', href: '/quiz', icon: '🎯' },
-        { name: 'Fragrance Guide', href: '/guide', icon: '📖' },
-        { name: 'Featured Products', href: '/#featured', icon: '⭐' },
+        { name: 'Scent Discovery Quiz', href: '/quiz' },
+        { name: 'Fragrance Guide', href: '/guide' },
+        { name: 'Featured Products', href: '/#featured' },
       ]
     },
     {
       name: 'About',
       href: '/about',
-      icon: '💎',
       description: 'Learn about our luxury brand',
       submenu: [
-        { name: 'Our Story', href: '/about', icon: '📜' },
-        { name: 'Contact Us', href: '/contact', icon: '📞' },
-        { name: 'Careers', href: '/careers', icon: '💼' },
+        { name: 'Our Story', href: '/about' },
+        { name: 'Contact Us', href: '/contact' },
+        { name: 'Careers', href: '/careers' },
       ]
     },
   ]
@@ -75,11 +72,6 @@ export function SimpleLuxuryNavigation({ className }: SimpleLuxuryNavigationProp
             href={item.href}
             className="relative flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-300 group-hover:bg-luxury-gold/10 group-hover:scale-105"
           >
-            {/* Icon */}
-            <span className="text-lg group-hover:rotate-12 transition-transform duration-300">
-              {item.icon}
-            </span>
-            
             {/* Text */}
             <span className="font-semibold text-luxury-cream/90 group-hover:text-luxury-gold transition-colors duration-300">
               {item.name}
@@ -103,9 +95,6 @@ export function SimpleLuxuryNavigation({ className }: SimpleLuxuryNavigationProp
               {/* Header */}
               <div className="p-6 bg-gradient-to-r from-luxury-gold/10 to-luxury-amber/10 border-b border-luxury-gold/20">
                 <div className="flex items-center space-x-3">
-                  <span className="text-2xl animate-spin">
-                    {item.icon}
-                  </span>
                   <div>
                     <h3 className="text-lg font-heading font-bold text-luxury-cream">
                       {item.name}
@@ -130,9 +119,6 @@ export function SimpleLuxuryNavigation({ className }: SimpleLuxuryNavigationProp
                       href={subItem.href}
                       className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-luxury-gold/10 transition-all duration-300 group"
                     >
-                      <span className="text-lg group-hover:scale-110 group-hover:rotate-5 transition-transform duration-300">
-                        {subItem.icon}
-                      </span>
                       <span className="text-luxury-cream/80 group-hover:text-luxury-gold font-medium transition-colors">
                         {subItem.name}
                       </span>
@@ -148,7 +134,7 @@ export function SimpleLuxuryNavigation({ className }: SimpleLuxuryNavigationProp
               <div className="p-4 bg-gradient-to-r from-luxury-charcoal/50 to-luxury-royal/10 border-t border-luxury-gold/20">
                 <div className="text-center">
                   <span className="text-xs text-luxury-gold/60 font-medium animate-pulse">
-                    ✨ Luxury Fragrances ✨
+                    Luxury Fragrances
                   </span>
                 </div>
               </div>

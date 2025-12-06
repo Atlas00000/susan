@@ -139,7 +139,6 @@ export function ProductGrid({ products, title, showFilters = true }: ProductGrid
           </div>
         ) : (
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-2xl font-heading font-bold text-luxury-cream mb-4">
               No fragrances found
             </h3>

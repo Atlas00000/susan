@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { StructuredData } from '@/components/seo/StructuredData';
+import { AIChatWidget } from '@/components/ai/AIChatWidget';
 
 export const metadata = {
   title: {
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main-content">{children}</main>
         <Footer />
+        <AIChatWidget />
       </body>
     </html>
   );

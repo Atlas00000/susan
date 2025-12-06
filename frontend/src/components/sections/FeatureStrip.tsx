@@ -6,22 +6,18 @@ import { Badge } from '@/components/ui/Badge'
 
 const features = [
   {
-    icon: '🌸',
     title: 'Curated Collections',
     description: 'Handpicked fragrances from the world\'s finest perfumers'
   },
   {
-    icon: '🔍',
     title: 'Scent Discovery',
     description: 'Find your perfect match with our personalized quiz'
   },
   {
-    icon: '✨',
     title: 'Luxury Experience',
     description: 'Premium packaging and exceptional customer service'
   },
   {
-    icon: '🌿',
     title: 'Natural Ingredients',
     description: 'Ethically sourced, high-quality fragrance components'
   }
@@ -60,9 +56,6 @@ export function FeatureStrip() {
               viewport={{ once: true }}
               className="text-center group"
             >
-              <div className="w-16 h-16 mx-auto mb-4 bg-luxury-gold/10 rounded-full flex items-center justify-center text-2xl group-hover:bg-luxury-gold/20 transition-colors duration-300">
-                {feature.icon}
-              </div>
               <h3 className="text-xl font-heading font-semibold text-luxury-cream mb-2">
                 {feature.title}
               </h3>

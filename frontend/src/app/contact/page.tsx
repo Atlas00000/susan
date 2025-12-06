@@ -1,10 +1,15 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { Container } from '@/components/ui/Container'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { Textarea } from '@/components/ui/Textarea'
+import { ScrollReveal } from '@/components/animations/ScrollReveal'
 import { motion } from 'framer-motion'
 
 export default function ContactPage() {
@@ -14,9 +19,15 @@ export default function ContactPage() {
     subject: '',
     message: ''
   })
+  const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isNewsletterSubmitting, setIsNewsletterSubmitting] = useState(false)
   const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false)
+
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -24,10 +35,42 @@ export default function ContactPage() {
       ...prev,
       [name]: value
     }))
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors[name]
+        return newErrors
+      })
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validate form
+    const newErrors: Record<string, string> = {}
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required'
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address'
+    }
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Subject is required'
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required'
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    
     setIsSubmitting(true)
     
     // Simulate form submission
@@ -43,12 +86,18 @@ export default function ContactPage() {
       subject: '',
       message: ''
     })
+    setErrors({})
     
     alert('Thank you for your message! We\'ll get back to you soon.')
   }
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!validateEmail(newsletterEmail)) {
+      return
+    }
+    
     setIsNewsletterSubmitting(true)
     
     // Simulate newsletter signup
@@ -57,20 +106,16 @@ export default function ContactPage() {
     console.log('Newsletter signup:', newsletterEmail)
     setIsNewsletterSubmitting(false)
     setNewsletterEmail('')
+    setNewsletterSuccess(true)
     
-    alert('Thank you for subscribing to our newsletter!')
+    setTimeout(() => setNewsletterSuccess(false), 3000)
   }
 
   return (
     <div className="min-h-screen bg-luxury-charcoal">
       <Container className="py-16">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <ScrollReveal variant="fadeInUp" className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-heading font-bold text-luxury-cream mb-6">
             Get in <span className="luxury-text-gradient">Touch</span>
           </h1>
@@ -78,16 +123,12 @@ export default function ContactPage() {
             Have questions about our fragrances? Need help finding your perfect scent? 
             We're here to help you on your fragrance journey.
           </p>
-        </motion.div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <Card>
+          <ScrollReveal variant="slideInLeft" delay={0.2}>
+            <Card variant="glass-premium" hover="glow">
               <CardHeader>
                 <CardTitle className="text-2xl font-heading font-bold text-luxury-cream mb-2">
                   Send us a Message
@@ -99,74 +140,50 @@ export default function ContactPage() {
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-luxury-cream mb-2">
-                        Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-luxury-gold/30 rounded-lg text-luxury-cream placeholder-luxury-cream/50 focus:outline-none focus:border-luxury-gold transition-colors"
-                        placeholder="Your name"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-luxury-cream mb-2">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-luxury-gold/30 rounded-lg text-luxury-cream placeholder-luxury-cream/50 focus:outline-none focus:border-luxury-gold transition-colors"
-                        placeholder="your@email.com"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-luxury-cream mb-2">
-                      Subject *
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
+                    <Input
+                      label="Name"
+                      name="name"
+                      value={formData.name}
                       onChange={handleInputChange}
+                      error={errors.name}
                       required
-                      className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-luxury-gold/30 rounded-lg text-luxury-cream placeholder-luxury-cream/50 focus:outline-none focus:border-luxury-gold transition-colors"
-                      placeholder="What's this about?"
+                    />
+                    <Input
+                      label="Email"
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      error={errors.email}
+                      required
                     />
                   </div>
                   
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-luxury-cream mb-2">
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                      rows={5}
-                      className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-luxury-gold/30 rounded-lg text-luxury-cream placeholder-luxury-cream/50 focus:outline-none focus:border-luxury-gold transition-colors resize-none"
-                      placeholder="Tell us how we can help you..."
-                    />
-                  </div>
+                  <Input
+                    label="Subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    error={errors.subject}
+                    required
+                  />
+                  
+                  <Textarea
+                    label="Message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    error={errors.message}
+                    rows={5}
+                    required
+                  />
                   
                   <Button 
                     type="submit" 
                     size="lg" 
+                    variant="premium"
                     className="w-full"
+                    loading={isSubmitting}
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -174,15 +191,10 @@ export default function ContactPage() {
                 </form>
               </CardContent>
             </Card>
-          </motion.div>
+          </ScrollReveal>
 
           {/* Contact Info & Newsletter */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="space-y-8"
-          >
+          <ScrollReveal variant="slideInRight" delay={0.4} className="space-y-8">
             {/* Contact Information */}
             <Card>
               <CardHeader>
@@ -193,7 +205,6 @@ export default function ContactPage() {
               <CardContent className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-luxury-gold/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-luxury-gold">📧</span>
                   </div>
                   <div>
                     <h3 className="font-medium text-luxury-cream mb-1">Email</h3>
@@ -203,7 +214,6 @@ export default function ContactPage() {
                 
                 <div className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-luxury-gold/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-luxury-gold">📞</span>
                   </div>
                   <div>
                     <h3 className="font-medium text-luxury-cream mb-1">Phone</h3>
@@ -213,7 +223,6 @@ export default function ContactPage() {
                 
                 <div className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-luxury-gold/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-luxury-gold">🕒</span>
                   </div>
                   <div>
                     <h3 className="font-medium text-luxury-cream mb-1">Hours</h3>
@@ -225,7 +234,7 @@ export default function ContactPage() {
             </Card>
 
             {/* Newsletter Signup */}
-            <Card>
+            <Card variant="glass-premium" hover="glow">
               <CardHeader>
                 <CardTitle className="text-2xl font-heading font-bold text-luxury-cream mb-2">
                   Stay in the Scent
@@ -236,28 +245,24 @@ export default function ContactPage() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleNewsletterSubmit} className="space-y-4">
-                  <div>
-                    <label htmlFor="newsletter-email" className="block text-sm font-medium text-luxury-cream mb-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="newsletter-email"
-                      value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
-                      required
-                      className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-luxury-gold/30 rounded-lg text-luxury-cream placeholder-luxury-cream/50 focus:outline-none focus:border-luxury-gold transition-colors"
-                      placeholder="Enter your email"
-                    />
-                  </div>
+                  <Input
+                    label="Email Address"
+                    type="email"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    success={newsletterSuccess}
+                    helperText={newsletterSuccess ? 'Successfully subscribed!' : undefined}
+                    required
+                  />
                   
                   <Button 
                     type="submit" 
-                    variant="outline" 
+                    variant="premium"
                     className="w-full"
-                    disabled={isNewsletterSubmitting}
+                    loading={isNewsletterSubmitting}
+                    disabled={isNewsletterSubmitting || newsletterSuccess}
                   >
-                    {isNewsletterSubmitting ? 'Subscribing...' : 'Subscribe to Newsletter'}
+                    {newsletterSuccess ? 'Subscribed!' : isNewsletterSubmitting ? 'Subscribing...' : 'Subscribe to Newsletter'}
                   </Button>
                 </form>
               </CardContent>
@@ -299,7 +304,7 @@ export default function ContactPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </Container>
     </div>

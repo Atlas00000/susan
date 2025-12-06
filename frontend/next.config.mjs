@@ -4,6 +4,12 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
+  // Output configuration for production
+  output: 'standalone',
+  
+  // Skip static generation (we're using dynamic AI features)
+  skipTrailingSlashRedirect: true,
+  
   // Performance optimizations
   compress: true,
   poweredByHeader: false,

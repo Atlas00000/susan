@@ -1,39 +1,70 @@
-import { forwardRef } from 'react'
-import { cn } from '@/lib/utils'
-import { CardProps } from '@/types'
+'use client'
 
+import { forwardRef } from 'react'
+import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
+import { CardVariant, CardPadding, CardHover, cardBaseStyles, getCardVariantClasses, getCardPaddingClasses, getCardHoverClasses } from './card-variants'
+
+export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
+  'onDrag' | 'onDragEnd' | 'onDragEnter' | 'onDragExit' | 'onDragLeave' | 'onDragOver' | 'onDragStart' |
+  'onAnimationStart' | 'onAnimationEnd' | 'onAnimationIteration'> {
+  variant?: CardVariant
+  padding?: CardPadding
+  hover?: CardHover
+  animated?: boolean
+}
+
+/**
+ * Enhanced Card Component
+ * 
+ * Features:
+ * - Glassmorphism variants
+ * - 3D tilt effects
+ * - Premium hover effects
+ * - Smooth animations
+ * - Multiple padding options
+ */
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ children, className, hover = false, padding = 'md', ...props }, ref) => {
-    const baseStyles = 'bg-luxury-charcoal/50 backdrop-blur-sm border border-luxury-gold/20 rounded-xl transition-all duration-300'
-    
-    const hoverStyles = hover ? 'hover:border-luxury-gold/40 hover:shadow-2xl hover:shadow-luxury-gold/10 hover:-translate-y-1' : ''
-    
-    const paddingStyles = {
-      sm: 'p-3',
-      md: 'p-6',
-      lg: 'p-8'
-    }
+  ({ 
+    children, 
+    className,
+    variant = 'default',
+    padding = 'md',
+    hover = 'lift',
+    animated = false,
+    ...props 
+  }, ref) => {
+    const cardClasses = cn(
+      cardBaseStyles,
+      getCardVariantClasses(variant),
+      getCardPaddingClasses(padding),
+      getCardHoverClasses(hover),
+      className
+    )
+
+    const Component = animated ? motion.div : 'div'
+    const motionProps = animated ? {
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.4, ease: 'easeOut' },
+    } : {}
 
     return (
-      <div
+      <Component
         ref={ref}
-        className={cn(
-          baseStyles,
-          hoverStyles,
-          paddingStyles[padding],
-          className
-        )}
+        className={cardClasses}
+        {...motionProps}
         {...props}
       >
         {children}
-      </div>
+      </Component>
     )
   }
 )
 
 Card.displayName = 'Card'
 
-const CardHeader = forwardRef<HTMLDivElement, CardProps>(
+const CardHeader = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ children, className, ...props }, ref) => (
     <div
       ref={ref}
@@ -47,7 +78,7 @@ const CardHeader = forwardRef<HTMLDivElement, CardProps>(
 
 CardHeader.displayName = 'CardHeader'
 
-const CardTitle = forwardRef<HTMLParagraphElement, CardProps>(
+const CardTitle = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ children, className, ...props }, ref) => (
     <h3
       ref={ref}
@@ -61,7 +92,7 @@ const CardTitle = forwardRef<HTMLParagraphElement, CardProps>(
 
 CardTitle.displayName = 'CardTitle'
 
-const CardDescription = forwardRef<HTMLParagraphElement, CardProps>(
+const CardDescription = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ children, className, ...props }, ref) => (
     <p
       ref={ref}
@@ -75,7 +106,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, CardProps>(
 
 CardDescription.displayName = 'CardDescription'
 
-const CardContent = forwardRef<HTMLDivElement, CardProps>(
+const CardContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ children, className, ...props }, ref) => (
     <div
       ref={ref}
@@ -89,7 +120,7 @@ const CardContent = forwardRef<HTMLDivElement, CardProps>(
 
 CardContent.displayName = 'CardContent'
 
-const CardFooter = forwardRef<HTMLDivElement, CardProps>(
+const CardFooter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ children, className, ...props }, ref) => (
     <div
       ref={ref}

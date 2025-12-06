@@ -17,37 +17,34 @@ export function LuxuryNavigation({ className }: LuxuryNavigationProps) {
     {
       name: 'Collections',
       href: '/collections',
-      icon: '🌸',
       description: 'Explore our curated fragrance collections',
       submenu: [
-        { name: 'All Collections', href: '/collections', icon: '✨' },
-        { name: 'Oud & Rich', href: '/collections/oud-rich', icon: '🌹' },
-        { name: 'Amber & Gold', href: '/collections/amber-gold', icon: '🏆' },
-        { name: 'Floral & Fresh', href: '/collections/floral-fresh', icon: '🌺' },
-        { name: 'Gourmand & Unique', href: '/collections/gourmand-unique', icon: '🍯' },
-        { name: 'Signature Editions', href: '/collections/signature', icon: '👑' },
+        { name: 'All Collections', href: '/collections' },
+        { name: 'Oud & Rich', href: '/collections/oud-rich' },
+        { name: 'Amber & Gold', href: '/collections/amber-gold' },
+        { name: 'Floral & Fresh', href: '/collections/floral-fresh' },
+        { name: 'Gourmand & Unique', href: '/collections/gourmand-unique' },
+        { name: 'Signature Editions', href: '/collections/signature' },
       ]
     },
     {
       name: 'Discover',
       href: '/quiz',
-      icon: '🔮',
       description: 'Find your perfect scent match',
       submenu: [
-        { name: 'Scent Discovery Quiz', href: '/quiz', icon: '🎯' },
-        { name: 'Fragrance Guide', href: '/guide', icon: '📖' },
-        { name: 'Featured Products', href: '/#featured', icon: '⭐' },
+        { name: 'Scent Discovery Quiz', href: '/quiz' },
+        { name: 'Fragrance Guide', href: '/guide' },
+        { name: 'Featured Products', href: '/#featured' },
       ]
     },
     {
       name: 'About',
       href: '/about',
-      icon: '💎',
       description: 'Learn about our luxury brand',
       submenu: [
-        { name: 'Our Story', href: '/about', icon: '📜' },
-        { name: 'Contact Us', href: '/contact', icon: '📞' },
-        { name: 'Careers', href: '/careers', icon: '💼' },
+        { name: 'Our Story', href: '/about' },
+        { name: 'Contact Us', href: '/contact' },
+        { name: 'Careers', href: '/careers' },
       ]
     },
   ]
@@ -84,7 +81,6 @@ export function LuxuryNavigation({ className }: LuxuryNavigationProps) {
               } : {}}
               transition={{ duration: 0.6 }}
             >
-              {item.icon}
             </motion.span>
             
             {/* Text */}
@@ -122,7 +118,6 @@ export function LuxuryNavigation({ className }: LuxuryNavigationProps) {
                       animate={{ rotate: [0, 360] }}
                       transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                     >
-                      {item.icon}
                     </motion.span>
                     <div>
                       <h3 className="text-lg font-heading font-bold text-luxury-cream">
@@ -152,7 +147,6 @@ export function LuxuryNavigation({ className }: LuxuryNavigationProps) {
                           className="text-lg"
                           whileHover={{ scale: 1.2, rotate: 5 }}
                         >
-                          {subItem.icon}
                         </motion.span>
                         <span className="text-luxury-cream/80 group-hover:text-luxury-gold font-medium transition-colors">
                           {subItem.name}
@@ -182,7 +176,7 @@ export function LuxuryNavigation({ className }: LuxuryNavigationProps) {
                     }}
                   >
                     <span className="text-xs text-luxury-gold/60 font-medium">
-                      ✨ Luxury Fragrances ✨
+                      Luxury Fragrances
                     </span>
                   </motion.div>
                 </div>

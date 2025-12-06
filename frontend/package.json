@@ -6,26 +6,26 @@
     "dev": "next dev -p 3000 --turbo",
     "dev:hot": "next dev -p 3000 --turbo --experimental-https",
     "build": "next build",
+    "build:check": "next build && echo 'Build completed with warnings (expected for dynamic app)'",
     "start": "next start -p 3000"
   },
   "dependencies": {
     "@vercel/analytics": "^1.2.2",
     "@vercel/speed-insights": "^1.0.10",
+    "clsx": "^2.0.0",
+    "framer-motion": "^11.0.0",
+    "groq-sdk": "^0.33.0",
     "next": "14.2.5",
     "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "framer-motion": "^11.0.0",
-    "clsx": "^2.0.0"
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
     "@types/node": "20.12.12",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "typescript": "5.4.5",
-    "tailwindcss": "^3.4.0",
     "autoprefixer": "^10.4.0",
-    "postcss": "^8.4.0"
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "5.4.5"
   }
 }
-
-

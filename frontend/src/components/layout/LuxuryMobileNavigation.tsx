@@ -17,36 +17,33 @@ export function LuxuryMobileNavigation({ className }: LuxuryMobileNavigationProp
     {
       name: 'Collections',
       href: '/collections',
-      icon: '🌸',
       color: 'from-luxury-gold to-luxury-amber',
       submenu: [
-        { name: 'All Collections', href: '/collections', icon: '✨' },
-        { name: 'Oud & Rich', href: '/collections/oud-rich', icon: '🌹' },
-        { name: 'Amber & Gold', href: '/collections/amber-gold', icon: '🏆' },
-        { name: 'Floral & Fresh', href: '/collections/floral-fresh', icon: '🌺' },
-        { name: 'Gourmand & Unique', href: '/collections/gourmand-unique', icon: '🍯' },
-        { name: 'Signature Editions', href: '/collections/signature', icon: '👑' },
+        { name: 'All Collections', href: '/collections' },
+        { name: 'Oud & Rich', href: '/collections/oud-rich' },
+        { name: 'Amber & Gold', href: '/collections/amber-gold' },
+        { name: 'Floral & Fresh', href: '/collections/floral-fresh' },
+        { name: 'Gourmand & Unique', href: '/collections/gourmand-unique' },
+        { name: 'Signature Editions', href: '/collections/signature' },
       ]
     },
     {
       name: 'Discover',
       href: '/quiz',
-      icon: '🔮',
       color: 'from-luxury-royal to-luxury-gold',
       submenu: [
-        { name: 'Scent Discovery Quiz', href: '/quiz', icon: '🎯' },
-        { name: 'Fragrance Guide', href: '/guide', icon: '📖' },
-        { name: 'All Products', href: '/products', icon: '⭐' },
+        { name: 'Scent Discovery Quiz', href: '/quiz' },
+        { name: 'Fragrance Guide', href: '/guide' },
+        { name: 'All Products', href: '/products' },
       ]
     },
     {
       name: 'About',
       href: '/about',
-      icon: '💎',
       color: 'from-luxury-amber to-luxury-royal',
       submenu: [
-        { name: 'Our Story', href: '/about', icon: '📜' },
-        { name: 'Contact Us', href: '/contact', icon: '📞' },
+        { name: 'Our Story', href: '/about' },
+        { name: 'Contact Us', href: '/contact' },
       ]
     },
   ]
@@ -206,7 +203,6 @@ export function LuxuryMobileNavigation({ className }: LuxuryMobileNavigationProp
                               }}
                               transition={{ duration: 0.6 }}
                             >
-                              {item.icon}
                             </motion.span>
                             <span className="text-lg font-heading font-bold text-luxury-cream">
                               {item.name}
@@ -248,7 +244,6 @@ export function LuxuryMobileNavigation({ className }: LuxuryMobileNavigationProp
                                     className="text-lg"
                                     whileHover={{ scale: 1.2, rotate: 5 }}
                                   >
-                                    {subItem.icon}
                                   </motion.span>
                                   <span className="text-luxury-cream/80 group-hover:text-luxury-gold font-medium transition-colors">
                                     {subItem.name}
@@ -282,7 +277,6 @@ export function LuxuryMobileNavigation({ className }: LuxuryMobileNavigationProp
                         className="flex items-center justify-center space-x-2"
                         whileHover={{ x: 2 }}
                       >
-                        <span>🎯</span>
                         <span>Take the Quiz</span>
                         <motion.span
                           animate={{ x: [0, 5, 0] }}
@@ -304,7 +298,6 @@ export function LuxuryMobileNavigation({ className }: LuxuryMobileNavigationProp
                         className="flex items-center justify-center space-x-2"
                         whileHover={{ x: 2 }}
                       >
-                        <span>📞</span>
                         <span>Contact Us</span>
                       </motion.span>
                     </motion.button>

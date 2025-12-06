@@ -200,7 +200,6 @@ export function DynamicProductShowcase() {
                         animate={{ rotate: [0, 10, -10, 0] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        ✨
                       </motion.div>
                     </motion.div>
                   </div>

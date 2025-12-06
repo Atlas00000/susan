@@ -16,36 +16,33 @@ export function SimpleLuxuryMobileNavigation({ className }: SimpleLuxuryMobileNa
     {
       name: 'Collections',
       href: '/collections',
-      icon: '🌸',
       color: 'from-luxury-gold to-luxury-amber',
       submenu: [
-        { name: 'All Collections', href: '/collections', icon: '✨' },
-        { name: 'Oud & Rich', href: '/collections/oud-rich', icon: '🌹' },
-        { name: 'Amber & Gold', href: '/collections/amber-gold', icon: '🏆' },
-        { name: 'Floral & Fresh', href: '/collections/floral-fresh', icon: '🌺' },
-        { name: 'Gourmand & Unique', href: '/collections/gourmand-unique', icon: '🍯' },
-        { name: 'Signature Editions', href: '/collections/signature', icon: '👑' },
+        { name: 'All Collections', href: '/collections' },
+        { name: 'Oud & Rich', href: '/collections/oud-rich' },
+        { name: 'Amber & Gold', href: '/collections/amber-gold' },
+        { name: 'Floral & Fresh', href: '/collections/floral-fresh' },
+        { name: 'Gourmand & Unique', href: '/collections/gourmand-unique' },
+        { name: 'Signature Editions', href: '/collections/signature' },
       ]
     },
     {
       name: 'Discover',
       href: '/quiz',
-      icon: '🔮',
       color: 'from-luxury-royal to-luxury-gold',
       submenu: [
-        { name: 'Scent Discovery Quiz', href: '/quiz', icon: '🎯' },
-        { name: 'Fragrance Guide', href: '/guide', icon: '📖' },
-        { name: 'All Products', href: '/products', icon: '⭐' },
+        { name: 'Scent Discovery Quiz', href: '/quiz' },
+        { name: 'Fragrance Guide', href: '/guide' },
+        { name: 'All Products', href: '/products' },
       ]
     },
     {
       name: 'About',
       href: '/about',
-      icon: '💎',
       color: 'from-luxury-amber to-luxury-royal',
       submenu: [
-        { name: 'Our Story', href: '/about', icon: '📜' },
-        { name: 'Contact Us', href: '/contact', icon: '📞' },
+        { name: 'Our Story', href: '/about' },
+        { name: 'Contact Us', href: '/contact' },
       ]
     },
   ]
@@ -159,7 +156,6 @@ export function SimpleLuxuryMobileNavigation({ className }: SimpleLuxuryMobileNa
                       >
                         <div className="flex items-center space-x-3">
                           <span className="text-2xl group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300">
-                            {item.icon}
                           </span>
                           <span className="text-lg font-heading font-bold text-luxury-cream">
                             {item.name}
@@ -190,7 +186,6 @@ export function SimpleLuxuryMobileNavigation({ className }: SimpleLuxuryMobileNa
                     whileTap={{ scale: 0.98 }}
                   >
                     <span className="flex items-center justify-center space-x-2 group-hover:translate-x-1 transition-transform duration-300">
-                      <span>🎯</span>
                       <span>Take the Quiz</span>
                       <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
                     </span>
@@ -204,7 +199,6 @@ export function SimpleLuxuryMobileNavigation({ className }: SimpleLuxuryMobileNa
                     whileTap={{ scale: 0.98 }}
                   >
                     <span className="flex items-center justify-center space-x-2 group-hover:translate-x-1 transition-transform duration-300">
-                      <span>📞</span>
                       <span>Contact Us</span>
                     </span>
                   </motion.button>

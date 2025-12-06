@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { Container } from '@/components/ui/Container'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
@@ -98,7 +100,7 @@ export default function GuidePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
                 >
-                  <Card hover className="h-full">
+                  <Card hover="lift" className="h-full">
                     <CardHeader>
                       <div className="flex items-center justify-between mb-4">
                         <Badge variant="luxury" size="sm">
@@ -145,7 +147,7 @@ export default function GuidePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
               >
-                <Card hover className="h-full">
+                <Card hover="lift" className="h-full">
                   <CardHeader>
                     <div className="flex items-center justify-between mb-2">
                       <Badge variant="secondary" size="sm">

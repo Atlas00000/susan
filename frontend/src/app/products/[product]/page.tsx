@@ -214,7 +214,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 .slice(0, 3)
                 .map((relatedProduct, index) => (
                   <Link key={relatedProduct.id} href={`/products/${relatedProduct.id}`}>
-                    <Card hover className="group cursor-pointer">
+                    <Card hover="lift" className="group cursor-pointer">
                       <CardHeader>
                         <div className="aspect-square bg-luxury-charcoal/50 rounded-lg overflow-hidden mb-4 relative">
                           {relatedProduct.images && relatedProduct.images[0] ? (

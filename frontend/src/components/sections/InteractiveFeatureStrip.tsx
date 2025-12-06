@@ -8,7 +8,6 @@ import Link from 'next/link'
 
 const features = [
   {
-    icon: '🎯',
     title: 'Personalized Discovery',
     description: 'Take our intelligent scent quiz to find your perfect fragrance match tailored to your personality',
     color: 'from-luxury-gold to-luxury-amber',
@@ -17,7 +16,6 @@ const features = [
     cta: 'Start Quiz'
   },
   {
-    icon: '✨',
     title: 'Premium Quality',
     description: 'Handcrafted with the finest ingredients sourced from the world\'s most prestigious suppliers',
     color: 'from-luxury-royal to-luxury-gold',
@@ -26,7 +24,6 @@ const features = [
     cta: 'Explore Quality'
   },
   {
-    icon: '🌹',
     title: 'Luxury Experience',
     description: 'Every scent tells a story of elegance and sophistication, curated for the modern connoisseur',
     color: 'from-luxury-amber to-luxury-royal',
@@ -35,7 +32,6 @@ const features = [
     cta: 'Read Stories'
   },
   {
-    icon: '💎',
     title: 'Exclusive Collections',
     description: 'Limited edition fragrances for the discerning few who appreciate true luxury and rarity',
     color: 'from-luxury-gold to-luxury-royal',
@@ -349,41 +345,6 @@ export function InteractiveFeatureStrip() {
                     transition={{ duration: 3, repeat: Infinity }}
                   />
 
-                  {/* SPECTACULAR ICON */}
-                  <motion.div
-                    className="text-8xl mb-8 text-center relative"
-                    animate={{
-                      rotate: hoveredIndex === index ? [0, 15, -15, 0] : 0,
-                      scale: hoveredIndex === index ? [1, 1.3, 1] : 1,
-                      filter: hoveredIndex === index ? 'drop-shadow(0 0 20px rgba(212, 175, 55, 0.8))' : 'none',
-                    }}
-                    transition={{ duration: 0.8 }}
-                    style={{ transformStyle: 'preserve-3d' }}
-                  >
-                    <motion.span
-                      className="block"
-                      animate={{
-                        textShadow: hoveredIndex === index ? [
-                          '0 0 0px rgba(212, 175, 55, 0)',
-                          '0 0 30px rgba(212, 175, 55, 0.8)',
-                          '0 0 0px rgba(212, 175, 55, 0)'
-                        ] : 'none'
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      {feature.icon}
-                    </motion.span>
-                    
-                    {/* ICON AURA */}
-                    <motion.div
-                      className="absolute inset-0 bg-luxury-gold/20 rounded-full blur-2xl -z-10"
-                      animate={{
-                        scale: hoveredIndex === index ? [1, 2, 1] : 0,
-                        opacity: hoveredIndex === index ? [0, 0.6, 0] : 0,
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  </motion.div>
 
                   {/* DRAMATIC CONTENT */}
                   <div className="text-center space-y-6 relative z-10">
@@ -683,7 +644,6 @@ export function InteractiveFeatureStrip() {
                       animate={{ rotate: [0, 15, -15, 0] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      ✨
                     </motion.span>
                   </motion.span>
                   

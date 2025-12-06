@@ -1,5 +1,11 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { Container } from '@/components/ui/Container'
+import { Input } from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
+import { StaggerContainer } from '@/components/animations/StaggerContainer'
 
 export function Footer() {
   const footerLinks = {
@@ -24,17 +30,24 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-luxury-charcoal border-t border-luxury-gold/20">
+    <footer className="bg-luxury-charcoal border-t border-luxury-gold/20 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 particles-gold opacity-30" />
+      
       <Container>
-        <div className="py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="py-16 relative z-10">
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-4 gap-12">
             {/* Brand */}
-            <div className="md:col-span-1">
-              <Link href="/" className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-luxury-gold rounded-full flex items-center justify-center">
-                  <span className="text-luxury-charcoal font-heading font-bold text-lg">S</span>
-                </div>
-                <span className="text-xl font-heading font-semibold text-luxury-cream">
+            <motion.div className="md:col-span-1">
+              <Link href="/" className="flex items-center space-x-2 mb-6 group">
+                <motion.div
+                  className="w-10 h-10 bg-luxury-gold rounded-full flex items-center justify-center glow-premium"
+                  whileHover={{ scale: 1.1, rotate: 360 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <span className="text-luxury-charcoal font-heading font-bold text-xl">S</span>
+                </motion.div>
+                <span className="text-2xl font-heading font-semibold luxury-text-gradient">
                   Sanaya's Scents
                 </span>
               </Link>
@@ -42,18 +55,21 @@ export function Footer() {
                 Discover your signature scent through our curated collection of luxury fragrances. 
                 Your scent is your story.
               </p>
-            </div>
+            </motion.div>
 
             {/* Shop */}
             <div>
-              <h3 className="text-luxury-cream font-heading font-semibold mb-4">Shop</h3>
-              <ul className="space-y-2">
+              <h3 className="text-luxury-cream font-heading font-semibold mb-6 text-lg">
+                Shop
+              </h3>
+              <ul className="space-y-3">
                 {footerLinks.shop.map((link) => (
                   <li key={link.name}>
                     <Link 
                       href={link.href}
-                      className="text-luxury-cream/70 hover:text-luxury-gold transition-colors text-sm"
+                      className="text-luxury-cream/70 hover:text-luxury-gold transition-all duration-300 text-sm group flex items-center gap-2"
                     >
+                      <span className="w-0 group-hover:w-2 h-0.5 bg-luxury-gold transition-all duration-300" />
                       {link.name}
                     </Link>
                   </li>
@@ -63,14 +79,17 @@ export function Footer() {
 
             {/* Discover */}
             <div>
-              <h3 className="text-luxury-cream font-heading font-semibold mb-4">Discover</h3>
-              <ul className="space-y-2">
+              <h3 className="text-luxury-cream font-heading font-semibold mb-6 text-lg">
+                Discover
+              </h3>
+              <ul className="space-y-3">
                 {footerLinks.discover.map((link) => (
                   <li key={link.name}>
                     <Link 
                       href={link.href}
-                      className="text-luxury-cream/70 hover:text-luxury-gold transition-colors text-sm"
+                      className="text-luxury-cream/70 hover:text-luxury-gold transition-all duration-300 text-sm group flex items-center gap-2"
                     >
+                      <span className="w-0 group-hover:w-2 h-0.5 bg-luxury-gold transition-all duration-300" />
                       {link.name}
                     </Link>
                   </li>
@@ -80,60 +99,81 @@ export function Footer() {
 
             {/* Support */}
             <div>
-              <h3 className="text-luxury-cream font-heading font-semibold mb-4">Support</h3>
-              <ul className="space-y-2">
+              <h3 className="text-luxury-cream font-heading font-semibold mb-6 text-lg">
+                Support
+              </h3>
+              <ul className="space-y-3">
                 {footerLinks.support.map((link) => (
                   <li key={link.name}>
                     <Link 
                       href={link.href}
-                      className="text-luxury-cream/70 hover:text-luxury-gold transition-colors text-sm"
+                      className="text-luxury-cream/70 hover:text-luxury-gold transition-all duration-300 text-sm group flex items-center gap-2"
                     >
+                      <span className="w-0 group-hover:w-2 h-0.5 bg-luxury-gold transition-all duration-300" />
                       {link.name}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
+          </StaggerContainer>
 
           {/* Newsletter */}
-          <div className="mt-12 pt-8 border-t border-luxury-gold/20">
+          <motion.div
+            className="mt-16 pt-12 border-t border-luxury-gold/20"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
             <div className="max-w-md">
-              <h3 className="text-luxury-cream font-heading font-semibold mb-2">
+              <h3 className="text-luxury-cream font-heading font-semibold mb-2 text-xl">
                 Stay in the Scent
               </h3>
-              <p className="text-luxury-cream/70 text-sm mb-4">
+              <p className="text-luxury-cream/70 text-sm mb-6">
                 Get exclusive access to new collections and scent stories.
               </p>
-              <div className="flex gap-2">
-                <input
+              <form className="flex gap-3">
+                <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 px-4 py-2 bg-luxury-charcoal/50 border border-luxury-gold/30 rounded-lg text-luxury-cream placeholder-luxury-cream/50 focus:outline-none focus:border-luxury-gold"
+                  className="flex-1"
                 />
-                <button className="px-6 py-2 bg-luxury-gold text-luxury-charcoal rounded-lg hover:bg-luxury-gold/90 transition-colors">
+                <Button variant="premium" type="submit" magnetic>
                   Subscribe
-                </button>
-              </div>
+                </Button>
+              </form>
             </div>
-          </div>
+          </motion.div>
 
           {/* Copyright */}
-          <div className="mt-8 pt-8 border-t border-luxury-gold/20">
-            <div className="flex flex-col md:flex-row justify-between items-center">
+          <motion.div
+            className="mt-12 pt-8 border-t border-luxury-gold/20"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-luxury-cream/50 text-sm">
                 © 2024 Sanaya's Scents. All rights reserved.
               </p>
-              <div className="flex space-x-6 mt-4 md:mt-0">
-                <Link href="/privacy" className="text-luxury-cream/50 hover:text-luxury-gold text-sm">
+              <div className="flex space-x-6">
+                <Link
+                  href="/privacy"
+                  className="text-luxury-cream/50 hover:text-luxury-gold text-sm transition-colors"
+                >
                   Privacy Policy
                 </Link>
-                <Link href="/terms" className="text-luxury-cream/50 hover:text-luxury-gold text-sm">
+                <Link
+                  href="/terms"
+                  className="text-luxury-cream/50 hover:text-luxury-gold text-sm transition-colors"
+                >
                   Terms of Service
                 </Link>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </Container>
     </footer>

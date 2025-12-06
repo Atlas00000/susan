@@ -74,7 +74,6 @@ const ProductCard = ({ product, index, isMobile }: { product: Product, index: nu
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-luxury-gold/10 to-luxury-amber/10 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="text-4xl mb-2">🌸</div>
                   <span className="text-luxury-gold/60 text-sm font-medium">
                     {product.name}
                   </span>
@@ -136,7 +135,6 @@ const ProductCard = ({ product, index, isMobile }: { product: Product, index: nu
                     ease: "easeInOut"
                   }}
                 >
-                  ✨
                 </motion.div>
               </div>
             </motion.div>
@@ -339,7 +337,7 @@ export function FeaturedProducts() {
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             <span className="text-luxury-gold font-semibold text-lg">
-              ✨ Featured Collection ✨
+              Featured Collection
             </span>
           </motion.div>
           

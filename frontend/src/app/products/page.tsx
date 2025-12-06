@@ -1,18 +1,24 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
+import { Suspense } from 'react'
 import { Container } from '@/components/ui/Container'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { mockProducts } from '@/data/products'
+import { SearchResults } from '@/components/search/SearchResults'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { formatPrice } from '@/lib/utils'
+import { useSearchParams } from 'next/navigation'
 
-export default function ProductsIndexPage() {
+function ProductsContent() {
   const products = mockProducts
 
+  // Otherwise show all products
   return (
     <div className="min-h-screen bg-luxury-charcoal">
       <Container className="py-16">
@@ -24,7 +30,7 @@ export default function ProductsIndexPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {products.map((product, index) => (
             <Link key={product.id} href={`/products/${product.id}`}>
-              <Card hover className="group cursor-pointer">
+              <Card hover="lift" className="group cursor-pointer">
                 <CardHeader>
                   <div className="aspect-square bg-luxury-charcoal/50 rounded-xl overflow-hidden relative mb-4">
                     {product.images && product.images[0] ? (
@@ -72,6 +78,31 @@ export default function ProductsIndexPage() {
         </div>
       </Container>
     </div>
+  )
+}
+
+function ProductsWithSearch() {
+  const searchParams = useSearchParams()
+  const searchQuery = searchParams.get('search')
+  
+  // If there's a search query, show search results
+  if (searchQuery) {
+    return <SearchResults />
+  }
+  
+  // Otherwise show all products
+  return <ProductsContent />
+}
+
+export default function ProductsIndexPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-luxury-charcoal flex items-center justify-center">
+        <div className="text-luxury-cream">Loading...</div>
+      </div>
+    }>
+      <ProductsWithSearch />
+    </Suspense>
   )
 }
 
