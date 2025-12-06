@@ -31,8 +31,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Process query with AI
-    const { interpretation, filters } = await processSearchQuery(query);
+    // Process query with AI (fallback to simple search if API key unavailable)
+    let interpretation = `Searching for: ${query}`;
+    let filters: Record<string, any> = {
+      categories: [],
+      moods: [],
+      notes: [],
+    };
+
+    if (process.env.GROQ_API_KEY) {
+      try {
+        const result = await processSearchQuery(query);
+        interpretation = result.interpretation;
+        filters = result.filters;
+      } catch (error) {
+        console.error('AI search processing failed, using fallback:', error);
+      }
+    }
 
     // Apply filters to products
     let filteredProducts = mockProducts;

@@ -58,8 +58,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get AI-enhanced results
-    const enhancement = await enhanceQuizResults(answers, topProducts);
+    // Get AI-enhanced results (with fallback if API key unavailable)
+    let enhancement;
+    if (process.env.GROQ_API_KEY) {
+      try {
+        enhancement = await enhanceQuizResults(answers, topProducts);
+      } catch (error) {
+        console.error('AI enhancement failed, using fallback:', error);
+        enhancement = {
+          profileTitle: 'The Fragrance Enthusiast',
+          personalizedDescription: 'Based on your preferences, you have a sophisticated appreciation for fragrances. Your choices reflect a balanced approach to scent, valuing both tradition and innovation in perfumery.',
+          recommendations: topProducts.slice(0, 3).map(p => ({
+            productId: p.id,
+            reasoning: `${p.name} matches your sophisticated taste and preference for ${p.category.replace('-', ' ')} fragrances.`,
+          })),
+        };
+      }
+    } else {
+      // Fallback when API key is not available
+      enhancement = {
+        profileTitle: 'The Fragrance Enthusiast',
+        personalizedDescription: 'Based on your preferences, you have a sophisticated appreciation for fragrances. Your choices reflect a balanced approach to scent, valuing both tradition and innovation in perfumery.',
+        recommendations: topProducts.slice(0, 3).map(p => ({
+          productId: p.id,
+          reasoning: `${p.name} matches your sophisticated taste and preference for ${p.category.replace('-', ' ')} fragrances.`,
+        })),
+      };
+    }
 
     return NextResponse.json({
       ...enhancement,

@@ -2,10 +2,19 @@ import Groq from 'groq-sdk';
 import { ChatMessage } from './types';
 import { getChatSystemPrompt } from './prompts';
 
-// Initialize Groq client
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+// Lazy initialization of Groq client to avoid build-time errors
+let groqClient: Groq | null = null;
+
+function getGroqClient(): Groq {
+  if (!groqClient) {
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      throw new Error('GROQ_API_KEY environment variable is required');
+    }
+    groqClient = new Groq({ apiKey });
+  }
+  return groqClient;
+}
 
 /**
  * Chat with AI using Groq's Llama 3.1 model
@@ -29,6 +38,7 @@ export async function chatWithAI(
       { role: 'user' as const, content: userMessage },
     ];
 
+    const groq = getGroqClient();
     const completion = await groq.chat.completions.create({
       messages,
       model: 'llama-3.3-70b-versatile', // Latest Llama model - Fast, smart, free
@@ -78,6 +88,7 @@ Return JSON only:
   }
 }`;
 
+    const groq = getGroqClient();
     const completion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
       model: 'llama-3.3-70b-versatile',
@@ -137,6 +148,7 @@ Return JSON:
   ]
 }`;
 
+    const groq = getGroqClient();
     const completion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
       model: 'llama-3.3-70b-versatile',
@@ -181,6 +193,7 @@ export async function getScentPairings(
 
 Consider day-to-night transitions and complementary scents. Keep each to 1 sentence.`;
 
+    const groq = getGroqClient();
     const completion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
       model: 'llama-3.3-70b-versatile',

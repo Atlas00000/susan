@@ -51,6 +51,17 @@ export async function POST(req: NextRequest) {
           }))
       : [];
 
+    // Check if API key is available
+    if (!process.env.GROQ_API_KEY) {
+      return NextResponse.json(
+        { 
+          error: 'AI service is currently unavailable. Please try again later.',
+          response: "I apologize, but I'm currently unable to process your request. Please feel free to explore our collections directly or contact our team for assistance."
+        },
+        { status: 503 }
+      );
+    }
+
     // Get AI response
     const response = await chatWithAI(message, conversationHistory);
 
