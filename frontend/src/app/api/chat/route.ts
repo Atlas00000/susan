@@ -6,6 +6,16 @@ import { ChatMessage } from '@/lib/ai/types';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+function getClientIp(req: NextRequest): string | null {
+  const xForwardedFor = req.headers.get('x-forwarded-for');
+  if (xForwardedFor) return xForwardedFor.split(',')[0]?.trim() || null;
+
+  const xRealIp = req.headers.get('x-real-ip');
+  if (xRealIp) return xRealIp.trim();
+
+  return null;
+}
+
 /**
  * POST /api/chat
  * Handle chat messages with AI assistant
@@ -24,7 +34,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate user ID if not provided (use IP or generate random)
-    const effectiveUserId = userId || req.ip || `user-${Date.now()}`;
+    const effectiveUserId = userId || getClientIp(req) || `user-${Date.now()}`;
 
     // Check rate limit (10 messages per hour per user)
     if (!checkRateLimit(effectiveUserId, 10)) {
@@ -93,7 +103,8 @@ export async function POST(req: NextRequest) {
  * Get chat status and rate limit info
  */
 export async function GET(req: NextRequest) {
-  const userId = req.nextUrl.searchParams.get('userId') || req.ip || 'anonymous';
+  const userId =
+    req.nextUrl.searchParams.get('userId') || getClientIp(req) || 'anonymous';
   const remaining = getRemainingRequests(userId, 10);
 
   return NextResponse.json({

@@ -6,6 +6,16 @@ import { mockProducts } from '@/data/products';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+function getClientIp(req: NextRequest): string | null {
+  const xForwardedFor = req.headers.get('x-forwarded-for');
+  if (xForwardedFor) return xForwardedFor.split(',')[0]?.trim() || null;
+
+  const xRealIp = req.headers.get('x-real-ip');
+  if (xRealIp) return xRealIp.trim();
+
+  return null;
+}
+
 /**
  * POST /api/quiz-enhance
  * Enhance quiz results with AI-generated personalization
@@ -30,7 +40,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Rate limiting (less strict for quiz results)
-    const effectiveUserId = userId || req.ip || `quiz-${Date.now()}`;
+    const effectiveUserId = userId || getClientIp(req) || `quiz-${Date.now()}`;
     if (!checkRateLimit(effectiveUserId, 5, 60 * 60 * 1000)) {
       return NextResponse.json(
         { error: 'Too many quiz submissions. Please wait a moment.' },

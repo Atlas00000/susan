@@ -2,7 +2,6 @@
 const nextConfig = {
   // Enable Fast Refresh and hot reloading
   reactStrictMode: true,
-  swcMinify: true,
   
   // Output configuration for production
   output: 'standalone',

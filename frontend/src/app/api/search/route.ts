@@ -6,6 +6,16 @@ import { mockProducts } from '@/data/products';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+function getClientIp(req: NextRequest): string | null {
+  const xForwardedFor = req.headers.get('x-forwarded-for');
+  if (xForwardedFor) return xForwardedFor.split(',')[0]?.trim() || null;
+
+  const xRealIp = req.headers.get('x-real-ip');
+  if (xRealIp) return xRealIp.trim();
+
+  return null;
+}
+
 /**
  * POST /api/search
  * Natural language search with AI
@@ -23,7 +33,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Rate limiting
-    const effectiveUserId = userId || req.ip || `search-${Date.now()}`;
+    const effectiveUserId = userId || getClientIp(req) || `search-${Date.now()}`;
     if (!checkRateLimit(effectiveUserId, 20, 60 * 60 * 1000)) {
       return NextResponse.json(
         { error: 'Too many search requests. Please wait a moment.' },
